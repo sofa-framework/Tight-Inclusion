@@ -108,7 +108,8 @@ configure_file(
 add_subdirectory("${TIGHT_INCLUSION_SOURCE_DIR}")
 
 # Public include directory for Tight Inclusion
-target_include_directories(tight_inclusion PUBLIC "${TIGHT_INCLUSION_INCLUDE_DIR}")
+target_include_directories(tight_inclusion PUBLIC $<BUILD_INTERFACE:${TIGHT_INCLUSION_INCLUDE_DIR}>)
+target_include_directories(tight_inclusion PUBLIC $<INSTALL_INTERFACE:include>) #Include the generated metis file
 
 ################################################################################
 # Optional Definitions
@@ -152,6 +153,21 @@ target_compile_options(tight_inclusion PRIVATE ${SIMD_FLAGS})
 # Use C++17
 target_compile_features(tight_inclusion PUBLIC cxx_std_17)
 
+
+################################################################################
+# Export target properly
+################################################################################
+
+install(TARGETS tight_inclusion
+        EXPORT tight_inclusionTargets DESTINATION ${CMAKE_INSTALL_LIBDIR}
+        PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+        RUNTIME DESTINATION "bin" COMPONENT applications
+        LIBRARY DESTINATION "lib" COMPONENT libraries
+        ARCHIVE DESTINATION "lib" COMPONENT libraries)
+install(EXPORT tight_inclusionTargets FILE tight_inclusionTargets.cmake DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/tight_inclusion)
+#install(FILES ${CMAKE_CURRENT_BINARY_DIR}/tight_inclusionConfig.cmake DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME})
+
+
 ################################################################################
 # App
 ################################################################################
@@ -159,3 +175,6 @@ target_compile_features(tight_inclusion PUBLIC cxx_std_17)
 if(TIGHT_INCLUSION_TOPLEVEL_PROJECT)
     add_subdirectory(app)
 endif()
+
+
+
