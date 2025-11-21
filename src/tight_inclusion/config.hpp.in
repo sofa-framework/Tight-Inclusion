@@ -14,6 +14,25 @@
 #cmakedefine TIGHT_INCLUSION_LIMIT_QUEUE_SIZE
 #cmakedefine TIGHT_INCLUSION_FLOAT_WITH_DOUBLE_INPUT
 
+#ifndef WIN32
+#	define TIGHT_INCLUSION_EXPORT_DYNAMIC_LIBRARY __attribute__ ((visibility ("default")))
+#   define TIGHT_INCLUSION_IMPORT_DYNAMIC_LIBRARY
+#else
+#	define TIGHT_INCLUSION_EXPORT_DYNAMIC_LIBRARY __declspec( dllexport )
+#   define TIGHT_INCLUSION_IMPORT_DYNAMIC_LIBRARY __declspec( dllimport )
+#   ifdef _MSC_VER
+#       pragma warning(disable : 4231)
+#       pragma warning(disable : 4910)
+#   endif
+#endif
+
+#ifdef TIGHT_INCLUSION_BUILD
+#  define TIGHT_INCLUSION_API  TIGHT_INCLUSION_EXPORT_DYNAMIC_LIBRARY
+#else
+#  define TIGHT_INCLUSION_API  TIGHT_INCLUSION_IMPORT_DYNAMIC_LIBRARY
+#endif
+
+
 // #define TIGHT_INCLUSION_CHECK_QUEUE_SIZE
 // #define TIGHT_INCLUSION_USE_MAX_ABS_TOL
 

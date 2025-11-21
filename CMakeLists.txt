@@ -153,7 +153,7 @@ target_compile_options(tight_inclusion PRIVATE ${SIMD_FLAGS})
 # Use C++17
 target_compile_features(tight_inclusion PUBLIC cxx_std_17)
 
-
+target_compile_definitions(tight_inclusion PRIVATE "-DTIGHT_INCLUSION_BUILD")
 ################################################################################
 # Export target properly
 ################################################################################

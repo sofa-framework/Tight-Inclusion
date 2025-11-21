@@ -6,10 +6,10 @@
 #include <tight_inclusion/config.hpp>
 
 namespace ticcd {
-    static constexpr bool DEFAULT_NO_ZERO_TOI = false;
+    static constexpr bool  DEFAULT_NO_ZERO_TOI = false;
     static constexpr Scalar DEFAULT_CCD_DISTANCE_TOL = 1e-6;
 
-    enum class CCDRootFindingMethod {
+    enum class TIGHT_INCLUSION_API CCDRootFindingMethod {
         DEPTH_FIRST_SEARCH,
         BREADTH_FIRST_SEARCH,
     };
@@ -37,7 +37,7 @@ namespace ticcd {
     /// @param[out] output_tolerance The precision under max_itr ( > 0). if max_itr < 0, output_tolerance = tolerance;
     /// @param[in] no_zero_toi Refine further if a zero toi is produced (assumes not initially in contact).
     /// @return True if there is a collision, false otherwise.
-    bool edgeEdgeCCD(
+    bool TIGHT_INCLUSION_API edgeEdgeCCD(
         const Vector3 &ea0_t0,
         const Vector3 &ea1_t0,
         const Vector3 &eb0_t0,
@@ -80,7 +80,7 @@ namespace ticcd {
     /// @param[out] output_tolerance The precision under max_itr ( > 0). if max_itr < 0, output_tolerance = tolerance;
     /// @param[in] no_zero_toi Refine further if a zero toi is produced (assumes not initially in contact).
     /// @return True if there is a collision, false otherwise.
-    bool vertexFaceCCD(
+    bool TIGHT_INCLUSION_API vertexFaceCCD(
         const Vector3 &v_t0,
         const Vector3 &f0_t0,
         const Vector3 &f1_t0,
@@ -100,7 +100,7 @@ namespace ticcd {
         const CCDRootFindingMethod ccd_method =
             CCDRootFindingMethod::BREADTH_FIRST_SEARCH);
 
-    Array3 compute_vertex_face_tolerances(
+    Array3 TIGHT_INCLUSION_API compute_vertex_face_tolerances(
         const Vector3 &v_t0,
         const Vector3 &f0_t0,
         const Vector3 &f1_t0,
@@ -111,7 +111,7 @@ namespace ticcd {
         const Vector3 &f2_t1,
         const Scalar distance_tolerance = DEFAULT_CCD_DISTANCE_TOL);
 
-    Array3 compute_edge_edge_tolerances(
+    Array3 TIGHT_INCLUSION_API compute_edge_edge_tolerances(
         const Vector3 &ea0_t0,
         const Vector3 &ea1_t0,
         const Vector3 &eb0_t0,
