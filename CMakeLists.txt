@@ -144,7 +144,9 @@ target_link_libraries(tight_inclusion PUBLIC Eigen3::Eigen)
 
 # Logger
 find_package(spdlog REQUIRED)
-include(spdlog)
+if(NOT spdlog_FOUND)
+    include(spdlog)
+endif ()
 target_link_libraries(tight_inclusion PUBLIC spdlog::spdlog)
 
 # rational-cpp (optional)
