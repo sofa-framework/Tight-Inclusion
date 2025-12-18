@@ -143,7 +143,7 @@ include(eigen)
 target_link_libraries(tight_inclusion PUBLIC Eigen3::Eigen)
 
 # Logger
-find_package(spdlog REQUIRED)
+find_package(spdlog QUIET)
 if(NOT spdlog_FOUND)
     include(spdlog)
 endif ()
