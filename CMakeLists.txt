@@ -1,10 +1,10 @@
 # Detects whether this is a top-level project
 get_directory_property(HAS_PARENT PARENT_DIRECTORY)
-if(HAS_PARENT)
-    set(TIGHT_INCLUSION_TOPLEVEL_PROJECT OFF)
-else()
-    set(TIGHT_INCLUSION_TOPLEVEL_PROJECT ON)
-endif()
+# if(HAS_PARENT)
+#     set(TIGHT_INCLUSION_TOPLEVEL_PROJECT OFF)
+# else()
+#     set(TIGHT_INCLUSION_TOPLEVEL_PROJECT ON)
+# endif()
 
 # Check required CMake version
 set(REQUIRED_CMAKE_VERSION "3.18.0")
@@ -96,7 +96,7 @@ set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 ################################################################################
 
 # Add an empty library and fill in the list of sources in `src/CMakeLists.txt`.
-add_library(tight_inclusion)
+add_library(tight_inclusion SHARED)
 add_library(tight_inclusion::tight_inclusion ALIAS tight_inclusion)
 
 # Fill in configuration options
@@ -123,10 +123,12 @@ target_compile_definitions(tight_inclusion PUBLIC NOMINMAX)
 ################################################################################
 
 # Eigen
+find_package(Eigen3 REQUIRED)
 include(eigen)
 target_link_libraries(tight_inclusion PUBLIC Eigen3::Eigen)
 
 # Logger
+find_package(spdlog REQUIRED)
 include(spdlog)
 target_link_libraries(tight_inclusion PUBLIC spdlog::spdlog)
 
