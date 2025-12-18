@@ -56,7 +56,7 @@ endif()
 
 ################################################################################
 
-project(TightInclusion
+project(tight_inclusion
         DESCRIPTION "Tight Inclusion CCD"
         LANGUAGES CXX
         VERSION "1.0.4")
@@ -111,6 +111,21 @@ add_subdirectory("${TIGHT_INCLUSION_SOURCE_DIR}")
 target_include_directories(tight_inclusion PUBLIC $<BUILD_INTERFACE:${TIGHT_INCLUSION_INCLUDE_DIR}>)
 target_include_directories(tight_inclusion PUBLIC $<INSTALL_INTERFACE:include>) #Include the generated metis file
 
+# Configure cmake config file
+include(CMakePackageConfigHelpers)
+
+configure_package_config_file(
+    cmake/${PROJECT_NAME}Config.cmake.in
+    ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake
+    INSTALL_DESTINATION lib/cmake/${PROJECT_NAME}
+)
+
+write_basic_package_version_file(
+    ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake
+    VERSION ${PROJECT_VERSION}
+    COMPATIBILITY SameMajorVersion
+)
+
 ################################################################################
 # Optional Definitions
 ################################################################################
@@ -161,13 +176,17 @@ target_compile_definitions(tight_inclusion PRIVATE "-DTIGHT_INCLUSION_BUILD")
 ################################################################################
 
 install(TARGETS tight_inclusion
-        EXPORT tight_inclusionTargets DESTINATION ${CMAKE_INSTALL_LIBDIR}
+        EXPORT ${PROJECT_NAME}Targets DESTINATION ${CMAKE_INSTALL_LIBDIR}
         PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
         RUNTIME DESTINATION "bin" COMPONENT applications
         LIBRARY DESTINATION "lib" COMPONENT libraries
         ARCHIVE DESTINATION "lib" COMPONENT libraries)
-install(EXPORT tight_inclusionTargets FILE tight_inclusionTargets.cmake DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/tight_inclusion)
-#install(FILES ${CMAKE_CURRENT_BINARY_DIR}/tight_inclusionConfig.cmake DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME})
+install(EXPORT ${PROJECT_NAME}Targets FILE ${PROJECT_NAME}Targets.cmake DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME})
+install(FILES
+          ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake
+          ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake
+        DESTINATION
+          ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME})
 
 
 ################################################################################
